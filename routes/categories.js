@@ -14,6 +14,16 @@ router.get('/add', (req, res, next) => {
 	});
 });
 
+router.get('/show/:category', (req, res, next) => {
+	posts.find({ category: req.params.category }, {}, (err, results) => {
+		console.log(results);
+		res.render('index', {
+			title: req.params.category,
+			results
+		});
+	});
+});
+
 router.post('/add', (req, res, next) => {
 	const name = req.body.name;
 
