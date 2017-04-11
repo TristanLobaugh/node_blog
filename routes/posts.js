@@ -19,6 +19,14 @@ router.get('/add', (req, res, next) => {
 	});
 });
 
+router.get('/show/:id', (req, res, next) => {
+	posts.findById(req.params.id, (err, post) => {
+		res.render('show', {
+			post
+		});
+	});
+});
+
 router.post('/add', upload.single('mainimage'), (req, res, next) => {
 	const title = req.body.title;
 	const category = req.body.category;
@@ -54,6 +62,53 @@ router.post('/add', upload.single('mainimage'), (req, res, next) => {
 				res.redirect('/');
 			}
 		});
+	}
+});
+
+router.post('/addcomment', (req, res, next) => {
+	const name = req.body.name;
+	const email = req.body.email;
+	const body = req.body.body;
+	const postid = req.body.postid;
+	const commentdate = new Date();
+
+	req.checkBody('name', 'Name field is required').notEmpty();
+	req.checkBody('email', 'Email field is required').notEmpty();
+	req.checkBody('email', 'Email field is not a vaild email address').isEmail();
+	req.checkBody('body', 'Body field is required').notEmpty();
+
+	const errors = req.validationErrors();
+	if (errors) {
+		posts.findById(postid, (err, post) => {
+			res.render('show', {
+				errors,
+				post
+			});
+		});
+	} else {
+		const comment = {
+			name,
+			email,
+			body,
+			commentdate
+		};
+
+		posts.update({
+			_id: postid
+		},
+			{
+				$push: {
+					comments: comment
+				}
+			}, (err, doc) => {
+				if (err) {
+					throw err;
+				} else {
+					req.flash('success', 'Comment added');
+					res.location(`/posts/show/${postid}`);
+					res.redirect(`/posts/show/${postid}`);
+				}
+			});
 	}
 });
 
