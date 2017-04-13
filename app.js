@@ -1,22 +1,23 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var multer = require('multer');
-var expressValidator = require('express-validator');
-var mongo = require('mongodb');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const multer = require('multer');
+const expressValidator = require('express-validator');
+const mongo = require('mongodb');
 
-var db = require('monk')('localhost/nodeblog');
-var upload = multer({ dest: './public/images' });
+const db = require('monk')('localhost/nodeblog');
 
-var index = require('./routes/index');
-var posts = require('./routes/posts');
-var categories = require('./routes/categories');
+const upload = multer({ dest: './public/images' });
 
-var app = express();
+const index = require('./routes/index');
+const posts = require('./routes/posts');
+const categories = require('./routes/categories');
+
+const app = express();
 
 app.locals.moment = require('moment');
 
