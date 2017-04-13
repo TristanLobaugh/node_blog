@@ -1,8 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var mongo = require('mongodb');
+const express = require('express');
 
-var db = require('monk')('localhost/nodeblog');
+const router = express.Router();
+const mongo = require('mongodb');
+
+const db = require('monk')('localhost/nodeblog');
 
 const posts = db.get('posts');
 const categories = db.get('categories');
