@@ -1,10 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var multer = require('multer');
-var mongo = require('mongodb');
+const express = require('express');
 
-var db = require('monk')('localhost/nodeblog');
-var upload = multer({ dest: 'uploads/' });
+const router = express.Router();
+const multer = require('multer');
+const mongo = require('mongodb');
+
+const db = require('monk')('localhost/nodeblog');
+
+const upload = multer({ dest: 'uploads/' });
 
 const posts = db.get('posts');
 const categories = db.get('categories');
